@@ -1,0 +1,15 @@
+server:
+    host: localhost
+    port: 3000
+    name: myapp
+db:
+    host: localhost
+    port: 27017
+    db: mydb
+    user: admin
+    password: mypassword
+jwt:
+    secret: mysecret
+env: dev
+
+
