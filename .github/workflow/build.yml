@@ -2,8 +2,9 @@ name: Build and Push Docker Image to Docker Hub
 
 on:
   push:
-    branches:
-      - main  # Adjust the branch name as needed
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ] # Adjust the branch name as needed
 
 jobs:
   push_to_registry:
