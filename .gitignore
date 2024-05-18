@@ -1,0 +1,26 @@
+# IntelliJ IDEA
+.idea/
+
+# Node.js
+node_modules/
+
+# Log files
+*.log
+
+# Dependency directory
+npm-debug.log
+
+# Environment variables file
+.env
+
+# Compiled files
+dist/
+
+# Editor-specific files
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
