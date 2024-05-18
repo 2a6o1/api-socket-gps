@@ -1,4 +1,4 @@
-class TransmitterRequest {
+class DeviceRequest {
     constructor({ id, latitude, longitude, speed }) {
         this.id = id;
         this.latitude = latitude;
@@ -7,7 +7,7 @@ class TransmitterRequest {
     }
 }
 
-class TransmitterResponse {
+class DeviceResponse {
     constructor({
         id,
         latitude,
@@ -29,4 +29,4 @@ class TransmitterResponse {
     }
 }
 
-export { TransmitterResponse, TransmitterRequest };
+export { DeviceResponse, DeviceRequest };

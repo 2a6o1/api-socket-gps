@@ -1,10 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-const TOKEN_ROLE = 'transmitter';
-
 const decodeToken = (token) => {
     if (!token) {
-        throw new Error('Token is missing');
+        new Error('Token is missing');
     }
 
     const decoded = jwt.verify(token, 'your_secret_key');
@@ -34,26 +32,30 @@ const validateToken = (decodedToken) => {
 
     if (!decodedToken.role) {
         throw new Error('Missing roles in token');
-    } else if (!decodedToken.role.includes(TOKEN_ROLE)) {
-        throw new Error('Unauthorized user');
+    }
+
+    if (!decodedToken.vehicularUnit) {
+        throw new Error('Missing vehicularUnit in token');
+    }
+
+    if (!decodedToken.deviceId) {
+        throw new Error('Missing transmitterId in token');
     }
 };
 
-const authMiddleware = (io) => {
-    io.use((socket, next) => {
-        try {
-            const token = socket.handshake.auth.token;
+const authMiddleware = (socket, next) => {
+    try {
+        const token = socket.handshake.auth.token;
 
-            const payload = decodeToken(token);
-            validateToken(payload);
+        const payload = decodeToken(token);
+        validateToken(payload);
 
-            socket.session = payload;
+        socket.session.payload = payload;
 
-            next();
-        } catch (err) {
-            next(new Error('Authentication error' + err.message));
-        }
-    });
+        next();
+    } catch (err) {
+        next(new Error('Authentication error: ' + err.message));
+    }
 };
 
 export default authMiddleware;

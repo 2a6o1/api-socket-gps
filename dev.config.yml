@@ -1,15 +1,21 @@
+version: 1.0.0
 server:
     host: localhost
     port: 3000
     name: myapp
+    path: /api/dev
 db:
-    host: localhost
+    host: 216.238.89.120
     port: 27017
-    db: mydb
-    user: admin
-    password: mypassword
+    database: gps
+    user: gpsDevice
+    password: 54JT3y8KYCXzv7Q
 jwt:
-    secret: mysecret
+    secret: 0oLFUPox2YTlrE17sWScnNkvcsW3CsgwviYQ
 env: dev
+logger:
+    level: debug
+    fileName: app
+    fileExtension: log
 
 

@@ -1,4 +1,4 @@
-class Transmitter {
+class Device {
     constructor({
         id,
         latitude,
@@ -19,3 +19,5 @@ class Transmitter {
         this.updatedAt = updatedAt;
     }
 }
+
+export default Device;

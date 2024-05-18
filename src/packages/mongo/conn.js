@@ -1,21 +1,23 @@
-const { MongoClient } = require('mongodb');
-
-const url = 'mongodb://localhost:27017'; // MongoDB connection URL
-const dbName = 'myDatabase'; // Name of the database
+import { MongoClient } from 'mongodb';
 
 let db; // Variable to store the database connection
 
-async function connect() {
-    try {
-        // Use MongoClient to connect to the MongoDB server
-        const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
-        await client.connect(); // Connect to the MongoDB server
-        console.log('Connected to MongoDB server');
+const createUrl = (host, port, user, password) => {
+    const credentials = user && password ? `${user}:${password}` : '';
+    return `mongodb://${credentials}@${host}:${port}/?directConnection=true&authMechanism=SCRAM-SHA-1&authSource=admin`;
+}
 
-        // Select the database
-        db = client.db(dbName);
+const connect = async ({ config }) => {
+    try {
+        const { database, host, port, user, password } = config;
+        const url = createUrl(host, port, user, password);
+        const client = new MongoClient(url);
+
+        db = client.db(database);
+        if (!db) {
+            new Error('Could not connect to the database');
+        }
     } catch (error) {
-        console.error('Error connecting to MongoDB:', error);
         throw error; // Rethrow the error for handling in the calling code
     }
 }
@@ -31,17 +33,11 @@ async function close() {
     try {
         if (db) {
             await db.client.close(); // Close the database connection
-            console.log('Disconnected from MongoDB server');
             db = null; // Reset the db variable
         }
     } catch (error) {
-        console.error('Error closing MongoDB connection:', error);
         throw error; // Rethrow the error for handling in the calling code
     }
 }
 
-module.exports = {
-    connect,
-    getDb,
-    close
-};
+export { connect, getDb, close };

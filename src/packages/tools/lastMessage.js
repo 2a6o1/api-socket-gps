@@ -1,30 +1,29 @@
 class MessageUpdater {
-    constructor() {
+    constructor(lapse) {
         this.lastMessage = null;
         this.updateTimeout = null;
+        this.lapse = lapse || 5;
     }
 }
 
-const performActionWithLastMessage = (lastMsg, msg, lapse, func) => {
-    lastMsg.lastMessage = msg;
+const performActionWithLastMessage = async (msgUpdate, msg, func) => {
+    msgUpdate.lastMessage = msg;
 
-    if (this.updateTimeout) {
-        clearTimeout(this.updateTimeout);
+    if (msgUpdate.updateTimeout) {
+        clearTimeout(msgUpdate.updateTimeout);
     }
 
-    this.updateTimeout = setTimeout(async () => {
+    msgUpdate.updateTimeout = setTimeout(async () => {
         try {
             // Call the provided callback function with the last message
-            await func(lastMsg.lastMessage);
+            await func(msgUpdate.lastMessage);
         } catch (error) {
-            console.error('Error performing action with last message:', error);
+            throw Error(`Error performing action with last message ${error}`);
         } finally {
-            lastMsg.lastMessage = null;
-            lastMsg.updateTimeout = null;
+            msgUpdate.lastMessage = null;
+            msgUpdate.updateTimeout = null;
         }
-    }, lapse * 1000);
-
-    return 'Action received';
+    }, msgUpdate.lapse * 1000);
 }
 
 
