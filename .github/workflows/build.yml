@@ -17,6 +17,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Install Nexe
+        run: npm install nexe@latest -g
+
       - name: Build binary
         run: npm run build:nexe
 
