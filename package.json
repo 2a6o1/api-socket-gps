@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
     "build:ncc": "ncc build main.js -o dist",
-    "build:nexe": "nexe -i main.js -o dist/bin/main --target linux-x64",
+    "build:nexe": "nexe -i main.js -o dist/bin/main --target linux-x64 --build",
     "dev": "nodemon main.js"
   },
   "author": "",
