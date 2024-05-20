@@ -1,20 +1,14 @@
-# Use the official Node.js 20 image as the base
+# Use Node.js 20 LTS
 FROM node:20
 
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to install dependencies
-COPY package*.json ./
+# Copy the binary file to the working directory
+COPY dist/bin/main ./bin/main
 
-# Install npm dependencies
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Expose the port your app runs on
+# Expose the port on which your app runs
 EXPOSE 3000
 
-# Command to run the application
-CMD ["node", "main.js"]
+# Command to run the app using the binary
+CMD ["./bin/main"]

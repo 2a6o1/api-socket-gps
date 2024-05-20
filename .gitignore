@@ -24,3 +24,7 @@ dist/
 
 # Windows
 Thumbs.db
+
+# Config files
+*.config.json
+*.config.yml
