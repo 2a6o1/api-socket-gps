@@ -36,6 +36,12 @@ jobs:
             exit 1
           fi
 
+      - name: Upload artifact dist
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -50,11 +56,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Download a single artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       - name: Build and push Docker image to registry
-        run: |
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest -f ./docker/Dockerfile .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
-        working-directory: $GITHUB_WORKSPACE/dist  # Set the working directory to the dist folder
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile  # Ensure this path points to your Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
