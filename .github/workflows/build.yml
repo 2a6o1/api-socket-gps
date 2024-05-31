@@ -29,6 +29,13 @@ jobs:
       - name: Run build:ncc
         run: npm run build:ncc
 
+      - name: Check if dist directory exists
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Error: dist directory not found"
+            exit 1
+          fi
+
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
@@ -50,4 +57,5 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest -f ./docker/Dockerfile .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
+
 
