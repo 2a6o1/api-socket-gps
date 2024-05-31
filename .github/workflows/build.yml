@@ -20,17 +20,14 @@ jobs:
           node-version: '20'  # Specify Node.js version 20
           cache: 'npm'
 
-      - name: Install NCC
-        run: npm install -g @vercel/ncc
-
       - name: Install dependencies
         run: npm install
 
+      - name: Install @vercel/ncc
+        run: npm install -g @vercel/ncc
+
       - name: Run build:ncc
         run: npm run build:ncc
-
-      - name: Copy dist directory
-        run: cp -r dist $GITHUB_WORKSPACE  # Copy dist to workspace
 
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -49,7 +46,8 @@ jobs:
       - name: Build and push Docker image to registry
         uses: docker/build-push-action@v5
         with:
-          context: $GITHUB_WORKSPACE  # Adjusted to use the dist directory
+          context: $GITHUB_WORKSPACE  # Adjusted to use the workspace directory
           file: ./docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
+
