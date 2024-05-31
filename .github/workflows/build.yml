@@ -23,20 +23,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Cache Nexe binaries
+      - name: Cache NCC binaries
         uses: actions/cache@v2
         with:
-          path: ~/.nexe
-          key: ${{ runner.os }}-nexe-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.npm
+          key: ${{ runner.os }}-ncc-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-nexe-
+            ${{ runner.os }}-ncc-
 
-      - name: Install Nexe
-        run: npm install nexe@latest -g
+      - name: Install NCC
+        run: npm install -g @vercel/ncc
 
-      - name: Build binary
-        run: npm run build:nexe
-
+      - name: Build binary using NCC
+        run: npm run build:ncc
 
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -55,7 +54,7 @@ jobs:
       - name: Build and push Docker image to registry
         uses: docker/build-push-action@v5
         with:
-          context: docker
-          file: ./docker/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
