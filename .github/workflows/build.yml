@@ -30,7 +30,7 @@ jobs:
         run: npm run build:ncc
 
       - name: Copy dist directory
-        run: cp -r dist $GITHUB_WORKSPACE/dist  # Copy dist to workspace
+        run: cp -r dist $GITHUB_WORKSPACE  # Copy dist to workspace
 
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -49,7 +49,7 @@ jobs:
       - name: Build and push Docker image to registry
         uses: docker/build-push-action@v5
         with:
-          context: $GITHUB_WORKSPACE/dist  # Adjusted to use the dist directory
+          context: $GITHUB_WORKSPACE  # Adjusted to use the dist directory
           file: ./docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
