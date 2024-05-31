@@ -4,14 +4,14 @@ FROM node:20-alpine
 # Set the working directory inside the container
 WORKDIR /usr/src/app
 
-# Copy the binary file to the working directory
-COPY dist/bin/main ./bin/main
+# Copy the generated dist directory to the working directory
+COPY dist ./dist
 
-# Ensure the binary has execute permissions
-RUN chmod +x ./bin/main
+# Install production dependencies if any (optional step)
+# RUN npm ci --only=production
 
 # Expose the port on which your app runs
 EXPOSE 3000
 
-# Command to run the app using the binary
-CMD ["./bin/main"]
+# Command to run the app using the generated index.js
+CMD ["node", "dist/index.js"]

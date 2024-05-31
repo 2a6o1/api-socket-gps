@@ -2,13 +2,13 @@ name: Build and Push Docker Image to Docker Hub
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ] # Adjust the branch name as needed
+    branches: ["main"] # Adjust the branch name as needed
 
 jobs:
   build:
-    name: Build binary from source code
+    name: Generate project app from source code
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,18 +23,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Cache NCC binaries
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-ncc-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-ncc-
-
       - name: Install NCC
         run: npm install -g @vercel/ncc
 
-      - name: Build binary using NCC
+      - name: Generate dist using NCC
         run: npm run build:ncc
 
   push_to_registry:
@@ -58,3 +50,4 @@ jobs:
           file: ./docker/Dockerfile  # Ensure this path points to your Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
+
