@@ -14,7 +14,10 @@ npm-debug.log
 dev.config.yml
 stg.config.yml
 prd.config.yml
+*.config.yml
 *.config.*
+*.config
+config.*
 
 # Compiled files
 dist/
