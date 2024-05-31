@@ -8,26 +8,26 @@ on:
 
 jobs:
   build:
-    name: Generate project app from source code
+    name: Build app from source code
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v2
         with:
-          node-version: '20'
+          node-version: '20'  # Specify Node.js version 20
           cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Install NCC
-        run: npm install -g @vercel/ncc
-
-      - name: Generate dist using NCC
+      - name: Run build:ncc
         run: npm run build:ncc
+
+      - name: Copy dist directory
+        run: cp -r dist $GITHUB_WORKSPACE/dist  # Copy dist to workspace
 
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -46,8 +46,7 @@ jobs:
       - name: Build and push Docker image to registry
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./docker/Dockerfile  # Ensure this path points to your Dockerfile
+          context: $GITHUB_WORKSPACE/dist  # Adjusted to use the dist directory
+          file: ./docker/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
-
