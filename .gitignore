@@ -1,6 +1,3 @@
-# Config files
-*.yml
-
 # IntelliJ IDEA
 .idea/
 
@@ -13,8 +10,11 @@ node_modules/
 # Dependency directory
 npm-debug.log
 
-# Environment variables file
-.env
+# Config files
+dev.config.yml
+stg.config.yml
+prd.config.yml
+*.config.*
 
 # Compiled files
 dist/
