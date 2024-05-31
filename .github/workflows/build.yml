@@ -39,7 +39,7 @@ jobs:
       - name: Upload artifact dist
         uses: actions/upload-artifact@v4
         with:
-          name: dist
+          name: dist-artifact
           path: dist
 
   push_to_registry:
@@ -59,8 +59,8 @@ jobs:
       - name: Download a single artifact
         uses: actions/download-artifact@v4
         with:
-          name: dist
-          path: /dist
+          name: dist-artifact
+          path: dist
 
       - shell: bash
         run: ls
