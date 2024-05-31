@@ -1,3 +1,6 @@
+# Config files
+*.yml
+
 # IntelliJ IDEA
 .idea/
 
@@ -24,7 +27,3 @@ dist/
 
 # Windows
 Thumbs.db
-
-# Config files
-*.config.json
-*.config.yml
