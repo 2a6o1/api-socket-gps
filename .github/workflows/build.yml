@@ -61,7 +61,7 @@ jobs:
         with:
           name: dist
 
-      - name: List Directories
+      - shell: bash
         run: ls -d */
 
       - name: Set up Docker Buildx
