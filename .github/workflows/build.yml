@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - name: Check out repository
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Login to Docker registry
@@ -55,6 +55,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile
+          file: ./docker/Dockerfile  # Ensure this path points to your Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
