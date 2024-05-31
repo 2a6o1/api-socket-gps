@@ -20,6 +20,9 @@ jobs:
           node-version: '20'  # Specify Node.js version 20
           cache: 'npm'
 
+      - name: Install NCC
+        run: npm install -g @vercel/ncc
+
       - name: Install dependencies
         run: npm install
 
