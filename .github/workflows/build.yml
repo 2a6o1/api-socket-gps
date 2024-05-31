@@ -62,7 +62,7 @@ jobs:
           name: dist
 
       - shell: bash
-        run: ls -d */
+        run: ls
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
