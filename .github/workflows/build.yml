@@ -57,5 +57,4 @@ jobs:
         run: |
           docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest -f ./docker/Dockerfile .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
-
-
+        working-directory: $GITHUB_WORKSPACE/dist  # Set the working directory to the dist folder
