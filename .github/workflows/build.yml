@@ -44,10 +44,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push Docker image to registry
-        uses: docker/build-push-action@v5
-        with:
-          context: $GITHUB_WORKSPACE  # Adjusted to use the workspace directory
-          file: ./docker/Dockerfile
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest -f ./docker/Dockerfile .
+        working-directory: $GITHUB_WORKSPACE  # Set the working directory to the root of the repository
 
+      - name: Push Docker image to registry
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/api-socket-gps:latest
